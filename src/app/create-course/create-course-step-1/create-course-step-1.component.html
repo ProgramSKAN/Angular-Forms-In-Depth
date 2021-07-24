@@ -1,0 +1,47 @@
+
+<div [formGroup]="form">
+    <mat-form-field>
+        <input matInput placeholder="Course title" formControlName="title" #title>
+        <mat-hint align="end">
+            {{ title.value.length }} / 60
+        </mat-hint>
+        <mat-error *ngIf="courseTitle.errors?.titleExists">
+            This title is already being used.</mat-error>
+    </mat-form-field>
+    {{courseTitle.errors|json}}
+    <p>this form throws error if course title already exists in database.eg:'Angular Forms In Depth'</p>
+
+    <mat-form-field>
+        <input matInput [matDatepicker]="releaseDatePicker"
+               formControlName="releasedAt"
+               placeholder="Release date">
+        <mat-datepicker-toggle matSuffix [for]="releaseDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #releaseDatePicker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-checkbox color="primary" formControlName="downloadsAllowed">
+        Downloads allowed?
+    </mat-checkbox>
+
+    <mat-form-field appearance="outline">
+        <textarea matInput placeholder="Description" formControlName="longDescription">
+        </textarea>
+    </mat-form-field>
+
+    <mat-form-field>
+      <!-- <mat-option [value]='BG'>Beginner</mat-option> -->
+        <mat-select placeholder="Select category" formControlName="category">
+            <ng-container *ngFor="let category of (courseCategories$ | async)">
+                <mat-option [value]="category.code">{{category.description}}</mat-option>
+            </ng-container>
+        </mat-select>
+    </mat-form-field>
+
+    <!-- address-from  > nest form control -->
+    <address-form legend='Address' formControlName='address'></address-form>
+</div>
+
+<div class="form-val">
+
+  FORM VALUE:  {{form.value | json}}
+</div>
